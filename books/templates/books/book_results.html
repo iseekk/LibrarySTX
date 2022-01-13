@@ -1,0 +1,44 @@
+{% extends "books/base.html" %}
+{% load static %}
+{% load bootstrap %}
+
+{% block body_block %}
+
+  <div class="container">
+    <table class="table">
+      <thead class="thead">
+        <tr>
+          <th scope="col">Tytuł</th>
+          <th scope="col">Autorzy</th>
+          <th scope="col">Data<br>publikacji</th>
+          <th scope="col">ISBN</th>
+          <th scope="col">Strony</th>
+          <th scope="col">Okładka</th>
+          <th scope="col">Język</th>
+          <th scope="col"></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for book in request.session.data %}
+          <tr>
+            <td>{{book.title}}</td>
+            <td>{{book.authors}}</td>
+            <td>{{book.publishedDate|slice:":4:"}}</td>
+            <td>{{book.isbn}}</td>
+            <td>{{book.pageCount}}</td>
+            {% if book.thumbnail %}
+            <td><a href="{{book.thumbnail}}">Link</a></td>
+            {% else %}
+            <td></td>
+            {% endif %}
+            <td>{{book.language}}</td>
+            <td>
+              <a class="btn btn-success" href="">Dodaj</a>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+{% endblock %}
