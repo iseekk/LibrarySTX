@@ -44,8 +44,16 @@
           <tr>
             <td>{{book.title}}</td>
             <td>{{book.authors}}</td>
+            {% if book.publishedDate %}
             <td>{{book.publishedDate.year}}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+            {% if book.isbn %}
             <td>{{book.isbn}}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
             <td>{{book.pageCount}}</td>
             {% if book.thumbnail %}
             <td><a href='{{book.thumbnail}}'>Link</a></td>

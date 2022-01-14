@@ -15,22 +15,29 @@
           <th scope="col">Strony</th>
           <th scope="col">Okładka</th>
           <th scope="col">Język</th>
+          <th scope="col"></th>
         </tr>
       </thead>
       <tbody>
         {% for book in request.session.data %}
           <tr>
-            <td>{{book.title}}</td>
-            <td>{{book.authors}}</td>
-            <td>{{book.publishedDate|slice:":4:"}}</td>
-            <td>{{book.isbn}}</td>
-            <td>{{book.pageCount}}</td>
-            {% if book.thumbnail %}
-            <td><a href="{{book.thumbnail}}">Link</a></td>
-            {% else %}
-            <td></td>
-            {% endif %}
-            <td>{{book.language}}</td>
+            <form action="{% url 'book_new' %}" method="post">
+              {% csrf_token %}
+              <td>{{book.title}}<input type="hidden" name="title" value="{{book.title}}"></td>
+              <td>{{book.authors}}<input type="hidden" name="authors" value="{{book.authors}}"></td>
+              <td>{{book.publishedDate|slice:":4:"}}<input type="hidden" name="publishedDate" value="{{book.publishedDate}}"></td>
+              <td>{{book.isbn}}<input type="hidden" name="isbn" value="{{book.isbn}}"></td>
+              <td>{{book.pageCount}}<input type="hidden" name="pageCount" value="{{book.pageCount}}"></td>
+              {% if book.thumbnail %}
+              <td><a href="{{book.thumbnail}}">Link</a><input type="hidden" name="thumbnail" value="{{book.thumbnail}}"></td>
+              {% else %}
+              <td><input type="hidden" name="thumbnail" value=""></td>
+              {% endif %}
+              <td>{{book.language}}<input type="hidden" name="language" value="{{book.language}}"></td>
+              <td>
+                <button class="btn btn-primary" type="submit">Dodaj</button>
+              </td>
+            </form>
           </tr>
         {% endfor %}
       </tbody>

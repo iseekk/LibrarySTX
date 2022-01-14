@@ -61,7 +61,7 @@ def book_search(request):
                     elif "ISBN_10" in i.values():
                         isbn = i["identifier"]
                     else:
-                        isbn = "Brak"
+                        isbn = ""
 
                 result = {
                     "title": book["volumeInfo"]["title"]
@@ -88,7 +88,8 @@ def book_search(request):
                 search_results.append(result)
 
             request.session["data"] = search_results
-            return render(request, "books/book_results.html")
+            form = BookForm
+            return render(request, "books/book_results.html", {"form": form, "keyword": keyword})
 
     else:
         form = KeywordForm()

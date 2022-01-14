@@ -12,6 +12,18 @@ class BookForm(forms.ModelForm):
             "publishedDate": forms.DateInput(attrs={"type": "date"}),
         }
 
+    def clean_isbn(self):
+        if self.cleaned_data['isbn'] == "":
+            return None
+        else:
+            return self.cleaned_data['isbn']
+
+    # def clean_publishedDate(self):
+    #     if self.cleaned_data['publishedDate'] == "dd.mm.rrrr":
+    #         return None
+    #     else:
+    #         return self.cleaned_data['publishedDate']
+
 
 class KeywordForm(forms.ModelForm):
     class Meta:
