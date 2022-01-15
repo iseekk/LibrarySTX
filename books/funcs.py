@@ -4,8 +4,8 @@ import json
 import re
 
 
-def download_book_data(keyword):
-    url = f"https://www.googleapis.com/books/v1/volumes?q={keyword}"
+def download_book_data(keyword, page):
+    url = f"https://www.googleapis.com/books/v1/volumes?q={keyword}&startIndex={page}"
     response = urllib.request.urlopen(url)
     data = json.loads(response.read())
     search_results = []
@@ -35,7 +35,8 @@ def download_book_data(keyword):
 
             "authors": ", ".join(
                 [str(a) for a in book["volumeInfo"]["authors"]]
-            ) if "authors" in book["volumeInfo"].keys() else "",
+            )[::-1].replace(",", "i ", 1)[::-1]
+            if "authors" in book["volumeInfo"].keys() else "",
 
             "publishedDate": date,
 
@@ -56,4 +57,6 @@ def download_book_data(keyword):
 
         search_results.append(result)
 
-    return search_results
+        total_items = data["totalItems"] if data["totalItems"] else None
+
+    return search_results, total_items

@@ -6,11 +6,12 @@ from django.shortcuts import render, redirect
 from django.views.generic import CreateView, UpdateView
 from django_filters.views import FilterView
 from django.urls import reverse
+from django.http import HttpResponseRedirect
 import urllib
 
 
 class BookListView(FilterView):
-    paginate_by = 30
+    # paginate_by = 10 # NOT WORKING
     model = Book
     template_name = "books/book_list.html"
     ordering = ["-id"]
@@ -42,15 +43,21 @@ class ImportBookView(CreateView):
     def get_success_url(self):
         if "keyword" in self.request.session:
             keyword = self.request.session.pop("keyword")
-            return reverse("book_repeat_search", kwargs={"keyword": keyword})
+            page = self.request.session["page"]
+            return reverse("book_repeat_search", kwargs={
+                "keyword": keyword,
+                "page": page
+            })
 
 
-def book_search(request, keyword=None):
+def book_search(request, keyword=None, page=0):
 
     if keyword:
-        data = download_book_data(keyword)
+        data, total_items  = download_book_data(keyword, page)
         request.session["keyword"] = keyword
         request.session["data"] = data
+        request.session["total_items"] = total_items
+        request.session["page"] = page
         return render(request, "books/book_results.html")
 
     elif request.method == "POST":
@@ -59,12 +66,33 @@ def book_search(request, keyword=None):
             keyword = urllib.parse.quote_plus(
                 form.cleaned_data["keyword"].strip().lower()
             )
-            data = download_book_data(keyword)
+            data, total_items = download_book_data(keyword, page)
             request.session["keyword"] = keyword
             request.session["data"] = data
+            request.session["page"] = page
+            request.session["total_items"] = total_items
             return render(request, "books/book_results.html")
 
     else:
         form = KeywordForm()
 
     return render(request, "books/book_search.html", {"form": form})
+
+
+def previous_page(request):
+    keyword = request.session.pop("keyword")
+    page = request.session["page"] - 10
+    if page < 10:
+        page = 0
+    return HttpResponseRedirect(reverse("book_repeat_search", kwargs={
+        "keyword": keyword,
+        "page": page,
+    }))
+
+def next_page(request):
+    keyword = request.session.pop("keyword")
+    page = request.session["page"] + 10
+    return HttpResponseRedirect(reverse("book_repeat_search", kwargs={
+        "keyword": keyword,
+        "page": page,
+    }))

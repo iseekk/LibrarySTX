@@ -1,5 +1,5 @@
 from books import views
-from django.urls import path, re_path
+from django.urls import path
 
 urlpatterns = [
     path("", views.BookListView.as_view(), name="book_list"),
@@ -7,7 +7,9 @@ urlpatterns = [
     path("book/<int:pk>/edit/", views.UpdateBookView.as_view(),
          name="book_edit"),
     path("book/search/", views.book_search, name="book_search"),
-    path("book/search?keyword=<keyword>/", views.book_search,
+    path("book/search?keyword=<keyword>&p=<int:page>/", views.book_search,
          name="book_repeat_search"),
     path("book/import/", views.ImportBookView.as_view(), name="book_import"),
-]
+    path("book/search/previous/", views.previous_page, name="previous_page"),
+    path("book/search/next/", views.next_page, name="next_page"),
+    ]
