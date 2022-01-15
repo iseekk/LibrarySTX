@@ -21,7 +21,7 @@
       <tbody>
         {% for book in request.session.data %}
           <tr>
-            <form action="{% url 'book_new' %}" method="post">
+            <form action="{% url 'book_import' %}" method="post">
               {% csrf_token %}
               <td>{{book.title}}<input type="hidden" name="title" value="{{book.title}}"></td>
               <td>{{book.authors}}<input type="hidden" name="authors" value="{{book.authors}}"></td>
@@ -35,7 +35,11 @@
               {% endif %}
               <td>{{book.language}}<input type="hidden" name="language" value="{{book.language}}"></td>
               <td>
+                {% if book.exists %}
+                <button class="btn btn-primary" type="submit" disabled>Dodaj</button>
+                {% else %}
                 <button class="btn btn-primary" type="submit">Dodaj</button>
+                {% endif %}
               </td>
             </form>
           </tr>
