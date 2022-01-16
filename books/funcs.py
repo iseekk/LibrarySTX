@@ -4,8 +4,8 @@ import json
 import re
 
 
-def download_book_data(keyword, page):
-    url = f"https://www.googleapis.com/books/v1/volumes?q={keyword}&startIndex={page}"
+def download_book_data(keyword, idx):
+    url = f"https://www.googleapis.com/books/v1/volumes?q={keyword}&startIndex={idx}"
     response = urllib.request.urlopen(url)
     data = json.loads(response.read())
     search_results = []
