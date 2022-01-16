@@ -52,7 +52,7 @@ def download_book_data(keyword, idx):
             if "language" in book["volumeInfo"].keys() else "",
 
             "exists": True if isbn and Book.objects.filter(isbn__exact=isbn)
-                           else False,
+            else False,
         }
 
         search_results.append(result)

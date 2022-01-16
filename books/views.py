@@ -2,12 +2,12 @@ from books.models import Book
 from books.filters import BookFilter
 from books.forms import BookForm, KeywordForm
 from books.funcs import download_book_data
-from django.shortcuts import render, redirect
-from django.views.generic import CreateView, UpdateView, View
+from django.shortcuts import render
+from django.views.generic import CreateView, UpdateView
 from django_filters.views import FilterView
 from django.urls import reverse
 from django.http import HttpResponseRedirect
-import urllib
+from urllib.parse import quote_plus
 
 
 class BookListView(FilterView):
@@ -49,7 +49,7 @@ class ImportBookView(CreateView):
 def book_search(request, keyword=None, idx=0):
 
     if keyword:
-        data, total_items  = download_book_data(keyword, idx)
+        data, total_items = download_book_data(keyword, idx)
         request.session["keyword"] = keyword
         request.session["data"] = data
         request.session["total_items"] = total_items
@@ -59,9 +59,7 @@ def book_search(request, keyword=None, idx=0):
     elif request.method == "POST":
         form = KeywordForm(request.POST)
         if form.is_valid():
-            keyword = urllib.parse.quote_plus(
-                form.cleaned_data["keyword"].strip().lower()
-            )
+            keyword = quote_plus(form.cleaned_data["keyword"].strip().lower())
             data, total_items = download_book_data(keyword, idx)
             request.session["keyword"] = keyword
             request.session["data"] = data
@@ -84,6 +82,7 @@ def previous_page(request):
         "keyword": keyword,
         "idx": idx,
     }))
+
 
 def next_page(request):
     keyword = request.session.pop("keyword")

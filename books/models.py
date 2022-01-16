@@ -30,7 +30,8 @@ class Book(models.Model):
         validators=[
             RegexValidator(
                 r"^\d{10}(\d{3})?$",
-                message="Wprowadź prawidłowy 10- lub 13-cyfrowy identyfikator."),
+                message="Wprowadź prawidłowy 10- lub 13-cyfrowy identyfikator.",
+                ),
             ],
         )
 
@@ -39,8 +40,10 @@ class Book(models.Model):
         blank=True,
         null=True,
         validators=[
-            MinValueValidator(0,
-                message="Ilość stron nie można być mniejsza niż zero.")
+            MinValueValidator(
+                0,
+                message="Ilość stron nie można być mniejsza niż zero.",
+                ),
             ],
         )
 

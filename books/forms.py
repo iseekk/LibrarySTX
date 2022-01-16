@@ -4,6 +4,7 @@ from books.models import Book, Keyword
 
 class BookForm(forms.ModelForm):
     error_css_class = 'error-block'
+
     class Meta:
         model = Book
         fields = ("title", "authors", "publishedDate", "isbn", "pageCount",
@@ -21,13 +22,14 @@ class BookForm(forms.ModelForm):
 
     def clean(self):
         cleaned_data = super().clean()
+
         if not self.cleaned_data["isbn"] and Book.objects.filter(
-            title=cleaned_data["title"],
-            authors=cleaned_data["authors"],
-            publishedDate=cleaned_data["publishedDate"],
-            language=cleaned_data["language"],
-            ):
+                            title=cleaned_data["title"],
+                            authors=cleaned_data["authors"],
+                            publishedDate=cleaned_data["publishedDate"],
+                            language=cleaned_data["language"]):
             raise forms.ValidationError("Taka pozycja już istnieje w bazie danych")
+
         return cleaned_data
 
 
