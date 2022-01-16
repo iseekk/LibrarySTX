@@ -42,8 +42,8 @@ def download_book_data(keyword, idx):
 
             "isbn": isbn,
 
-            "pageCount": str(book["volumeInfo"]["pageCount"])
-            if "pageCount" in book["volumeInfo"].keys() else "",
+            "pageCount": book["volumeInfo"]["pageCount"]
+            if "pageCount" in book["volumeInfo"].keys() else None,
 
             "thumbnail": book["volumeInfo"]["imageLinks"]["thumbnail"]
             if "imageLinks" in book["volumeInfo"] else "",

@@ -39,10 +39,11 @@ class ImportBookView(CreateView):
         if "keyword" in self.request.session:
             keyword = self.request.session.pop("keyword")
             idx = self.request.session["idx"]
+
             return reverse("book_repeat_search", kwargs={
-                "keyword": keyword,
-                "idx": idx
-            })
+                                                    "keyword": keyword,
+                                                    "idx": idx,
+                                                    })
 
 
 def book_search(request, keyword=None, idx=0):

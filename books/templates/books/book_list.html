@@ -41,24 +41,35 @@
         {% for book in books %}
           <tr>
             <td>{{book.title}}</td>
+
             <td>{{book.authors}}</td>
+
             {% if book.publishedDate %}
             <td>{{book.publishedDate.year}}</td>
             {% else %}
             <td></td>
             {% endif %}
+
             {% if book.isbn %}
             <td>{{book.isbn}}</td>
             {% else %}
             <td></td>
             {% endif %}
+
+            {% if book.pageCount %}
             <td>{{book.pageCount}}</td>
+            {% else %}
+            <td></td>
+            {% endif %}
+
             {% if book.thumbnail %}
             <td><a href='{{book.thumbnail}}'>Link</a></td>
             {% else %}
             <td></td>
             {% endif %}
+
             <td>{{book.language}}</td>
+
             <td>
               <a class="btn btn-success" href="{% url 'book_edit' pk=book.pk %}">Edytuj</a>
             </td>

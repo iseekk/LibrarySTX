@@ -62,23 +62,6 @@
           </li>
         {% endif %}
 
-        <!-- Page numbers -->
-        {% for i in page_obj.paginator.page_range %}
-          {% if i == page_obj.number %}
-            <li class="page-item active">
-              <a class="page-link" href="">{{page_obj.number}}</a>
-            </li>
-          {% elif i|add:"-3" <= page_obj.number and i|add:"3" >= page_obj.number %}
-            <li class="page-item ">
-              <a class="page-link" href="?page={{i}}">{{i}}</a>
-            </li>
-          {% elif i|divisibleby:"10" and i|add:"-30" <= page_obj.number and i|add:"30" >= page_obj.number%}
-            <li class="page-item ">
-              <a class="page-link" href="?page={{i}}">{{i}}</a>
-            </li>
-          {% endif %}
-        {% endfor %}
-
         <!-- Next -->
         {% if request.session.page|add:"9" < request.session.total_items %}
           <li class="page-item">

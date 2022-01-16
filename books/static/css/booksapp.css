@@ -43,3 +43,7 @@ body {
   padding-top: 15px;
   padding-bottom: 15px;
 }
+
+.error-block {
+  color: red;
+}
