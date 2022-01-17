@@ -6,12 +6,12 @@ from django.core.validators import MinValueValidator, RegexValidator
 class Book(models.Model):
     title = models.CharField(
         verbose_name="Tytuł",
-        max_length=255,
+        max_length=200,
         )
 
     authors = models.CharField(
         verbose_name="Autorzy",
-        max_length=255,
+        max_length=200,
         blank=True,
         )
 
@@ -49,13 +49,13 @@ class Book(models.Model):
 
     thumbnail = models.URLField(
         verbose_name="Odnośnik do okładki",
-        max_length=255,
+        max_length=200,
         blank=True,
         )
 
     language = models.CharField(
         verbose_name="Język",
-        max_length=255,
+        max_length=25,
         blank=True,
         )
 
@@ -69,6 +69,6 @@ class Book(models.Model):
 class Keyword(models.Model):
     keyword = models.CharField(
         verbose_name="Wpisz słowo kluczowe",
-        max_length=100,
+        max_length=50,
         null=True,
         )
