@@ -10,7 +10,8 @@
       {% csrf_token %}
       {{form|bootstrap}}
       <br>
-      <button type="submit" class="btn btn-primary">Przeglądaj</button>
+      <button type="submit" name="browse" class="btn btn-primary">Przeglądaj</button>
+      <button type="submit" name="import_all" class="btn btn-primary">Importuj wszystko (może chwilę potrwać)</button>
     </form>
   </div>
   </div>

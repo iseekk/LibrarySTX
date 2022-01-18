@@ -57,15 +57,35 @@ def book_search(request, keyword=None, idx=0):
         return render(request, "books/book_results.html")
 
     elif request.method == "POST":
-        form = KeywordForm(request.POST)
-        if form.is_valid():
-            keyword = quote_plus(form.cleaned_data["keyword"].strip().lower())
-            data, total_items = download_book_data(keyword, idx)
-            request.session["keyword"] = keyword
-            request.session["data"] = data
-            request.session["idx"] = idx
-            request.session["total_items"] = total_items
-            return render(request, "books/book_results.html")
+        if 'browse' in request.POST:
+             form = KeywordForm(request.POST)
+             if form.is_valid():
+                 keyword = quote_plus(form.cleaned_data["keyword"].strip().lower())
+                 data, total_items = download_book_data(keyword, idx)
+                 request.session["keyword"] = keyword
+                 request.session["data"] = data
+                 request.session["idx"] = idx
+                 request.session["total_items"] = total_items
+                 return render(request, "books/book_results.html")
+        elif 'import_all' in request.POST:
+            form = KeywordForm(request.POST)
+            if form.is_valid():
+                keyword = quote_plus(form.cleaned_data["keyword"].strip().lower())
+                data, total_items = download_book_data(keyword, idx, max_results=40)
+                curr_item = 0
+                while total_items and curr_item < total_items:
+                    for d in data:
+                        d.pop("exists")
+                        try:
+                            book = Book.objects.create(**d)
+                            book.save()
+                        except Exception as e:
+                            continue
+                    data, total_items = download_book_data(keyword, idx, max_results=40)
+                    idx += 40
+                return HttpResponseRedirect(reverse("book_list"))
+
+
 
     else:
         form = KeywordForm()
