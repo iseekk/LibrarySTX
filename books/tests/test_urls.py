@@ -3,6 +3,7 @@ from django.urls import reverse
 from books.models import Book
 from django.conf import settings as django_settings
 
+
 pytestmark = pytest.mark.django_db
 
 BOOK_DATA = {

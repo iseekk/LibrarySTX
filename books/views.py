@@ -57,18 +57,22 @@ def book_search(request, keyword=None, idx=0):
         return render(request, "books/book_results.html")
 
     elif request.method == "POST":
+
         if 'browse' in request.POST:
-             form = KeywordForm(request.POST)
-             if form.is_valid():
-                 keyword = quote_plus(form.cleaned_data["keyword"].strip().lower())
-                 data, total_items = download_book_data(keyword, idx)
-                 request.session["keyword"] = keyword
-                 request.session["data"] = data
-                 request.session["idx"] = idx
-                 request.session["total_items"] = total_items
-                 return render(request, "books/book_results.html")
+            form = KeywordForm(request.POST)
+
+            if form.is_valid():
+                keyword = quote_plus(form.cleaned_data["keyword"].strip().lower())
+                data, total_items = download_book_data(keyword, idx)
+                request.session["keyword"] = keyword
+                request.session["data"] = data
+                request.session["idx"] = idx
+                request.session["total_items"] = total_items
+                return render(request, "books/book_results.html")
+
         elif 'import_all' in request.POST:
             form = KeywordForm(request.POST)
+
             if form.is_valid():
                 keyword = quote_plus(form.cleaned_data["keyword"].strip().lower())
                 data, total_items = download_book_data(keyword, idx, max_results=40)
@@ -84,8 +88,6 @@ def book_search(request, keyword=None, idx=0):
                     data, total_items = download_book_data(keyword, idx, max_results=40)
                     idx += 40
                 return HttpResponseRedirect(reverse("book_list"))
-
-
 
     else:
         form = KeywordForm()

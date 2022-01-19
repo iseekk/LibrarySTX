@@ -3,6 +3,7 @@ from books.forms import BookForm
 from books.models import Book
 from datetime import date
 
+
 pytestmark = pytest.mark.django_db
 
 BOOK_DATA = {

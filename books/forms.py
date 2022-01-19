@@ -34,6 +34,7 @@ class BookForm(forms.ModelForm):
 
 
 class KeywordForm(forms.ModelForm):
+
     class Meta:
         model = Keyword
         fields = ("keyword",)

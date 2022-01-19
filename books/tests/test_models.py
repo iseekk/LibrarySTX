@@ -1,7 +1,7 @@
 import pytest
 from books.models import Book, Keyword
-from datetime import datetime
 from django.urls import reverse
+
 
 pytestmark = pytest.mark.django_db
 
