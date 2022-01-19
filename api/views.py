@@ -1,10 +1,10 @@
 from books.models import Book
-from api.serializers import BookSerializer
+from api.serializers import BooksSerializer
 from rest_framework import generics
 
 
-class BookApiView(generics.ListCreateAPIView):
-    serializer_class = BookSerializer
+class BooksApiView(generics.ListCreateAPIView):
+    serializer_class = BooksSerializer
 
     def get_queryset(self):
         queryset = Book.objects.all()
