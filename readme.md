@@ -3,8 +3,11 @@
 Create a secret_key.txt file with your django secret key and add it to .gitignore file
 
 Make sure you make a database using:
+
         python manage.py makemigrations
+
 and
+
         python manage.py migrate
 
 # Using LibrarySTX's API
