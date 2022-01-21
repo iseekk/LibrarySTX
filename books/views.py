@@ -18,6 +18,14 @@ class BookListView(FilterView):
     context_object_name = "books"
     ordering = ["-id"]
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        get_copy = self.request.GET.copy()
+        if get_copy.get("page"):
+            get_copy.pop("page")
+        context["get_copy"] = get_copy
+        return context
+
 
 class CreateBookView(CreateView):
     redirect_field_name = "books/book_list.html"
